@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMT 設備學習計畫 — 八週</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fa;
+  --bg2: #ffffff;
+  --bg3: #f0f3f8;
+  --border: #dde3ed;
+  --border2: #c4cfe0;
+  --text: #1a1e2a;
+  --text2: #4a5468;
+  --text3: #8e9ab0;
+  --accent: #2e78d8;
+  --accent2: #1a5eb8;
+  --accent-light: #deeaf8;
+  --amber: #a05c1a;
+  --done-bg: #f0f7f0;
+  --done-border: #b0d8b8;
+  --done-text: #2a6e40;
+  --online-bg: #edf4fd;
+  --online-text: #1a5eb8;
+  --online-border: #b8d4f4;
+  --floor-bg: #f0f7f0;
+  --floor-text: #2a6e40;
+  --floor-border: #b0d8b8;
+  --both-bg: #fdf4eb;
+  --both-text: #a05c1a;
+  --both-border: #e8ceaa;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Noto Sans TC', sans-serif;
+  --radius: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+.page { max-width: 900px; margin: 0 auto; padding: 0 24px 100px; }
+
+/* ── HEADER ── */
+header {
+  padding: 40px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.header-left {}
+.header-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+header h1 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.save-indicator {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+.save-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--text3);
+  transition: background 0.3s;
+}
+.save-dot.saved { background: #2a6e40; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 11px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.legend-item {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; color: var(--text2);
+}
+.legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.ld-online { background: var(--online-text); }
+.ld-floor  { background: var(--floor-text); }
+.ld-both   { background: var(--amber); }
+
+/* ── WEEK TABS ── */
+.week-tabs-wrap {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.week-tab {
+  position: relative;
+  padding: 7px 17px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--border2);
+  color: var(--text2);
+  background: var(--bg2);
+  font-family: var(--sans);
+  transition: all 0.15s;
+}
+.week-tab:hover { border-color: var(--accent); color: var(--accent); }
+.week-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.week-tab.has-done::after {
+  content: '';
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #2a6e40;
+}
+.week-tab.active.has-done::after { background: #a8f0c0; }
+
+/* ── PROGRESS ── */
+.week-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.prog-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* ── WEEK CONTENT ── */
+.week-view { display: none; }
+.week-view.visible { display: block; }
+
+.week-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.week-card-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.week-num-badge {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--accent); background: var(--accent-light);
+  border: 1px solid var(--online-border);
+  padding: 3px 10px; border-radius: 4px; flex-shrink: 0;
+}
+.week-phase-tag { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+.week-goal-head {
+  font-size: 16px; font-weight: 700;
+  color: var(--text);
+  padding: 14px 22px 10px;
+}
+
+/* ── EQUIP SECTION ── */
+.equip-section { border-bottom: 1px solid var(--border); }
+.equip-section:last-child { border-bottom: none; }
+.equip-title-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 22px 10px; cursor: pointer;
+  user-select: none;
+}
+.equip-title-row:hover { background: var(--bg3); }
+.equip-icon-box {
+  width: 34px; height: 34px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.equip-name-label { font-size: 15px; font-weight: 500; color: var(--text); flex: 1; }
+.equip-meta { display: flex; align-items: center; gap: 10px; }
+.equip-done-count { font-family: var(--mono); font-size: 12px; color: var(--done-text); }
+.equip-count { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+.equip-toggle { font-size: 13px; color: var(--text3); transition: transform 0.2s; }
+.equip-section.open .equip-toggle { transform: rotate(180deg); }
+.equip-topics { display: none; padding: 4px 22px 14px; }
+.equip-section.open .equip-topics { display: block; }
+
+/* ── TOPIC ROW ── */
+.topic-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: var(--radius);
+  margin-bottom: 7px; border: 1px solid transparent;
+  transition: opacity 0.2s;
+}
+.topic-item:last-child { margin-bottom: 0; }
+.topic-item.type-online { background: var(--online-bg); border-color: var(--online-border); }
+.topic-item.type-floor  { background: var(--floor-bg);  border-color: var(--floor-border); }
+.topic-item.type-both   { background: var(--both-bg);   border-color: var(--both-border); }
+.topic-item.done {
+  background: var(--done-bg) !important;
+  border-color: var(--done-border) !important;
+  opacity: 0.75;
+}
+
+/* ── CHECKBOX ── */
+.topic-check {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  border: 2px solid var(--border2);
+  background: white;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+  transition: all 0.15s;
+}
+.topic-check:hover { border-color: var(--accent); }
+.topic-check.checked {
+  background: #2a6e40;
+  border-color: #2a6e40;
+}
+.topic-check.checked::after {
+  content: '';
+  width: 12px; height: 7px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.topic-tag {
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  padding: 2px 8px; border-radius: 3px;
+  flex-shrink: 0; margin-top: 3px; letter-spacing: 0.04em;
+}
+.type-online .topic-tag { background: rgba(26,94,184,0.12); color: var(--online-text); }
+.type-floor  .topic-tag { background: rgba(42,110,64,0.12); color: var(--floor-text); }
+.type-both   .topic-tag { background: rgba(160,92,26,0.12); color: var(--amber); }
+.topic-item.done .topic-tag { background: rgba(42,110,64,0.12); color: var(--done-text); }
+
+.topic-text-wrap {
+  font-size: 14px; line-height: 1.65; color: var(--text2); flex: 1;
+}
+.topic-item.done .topic-text-wrap {
+  text-decoration: line-through;
+  color: var(--text3);
+}
+
+/* ── CALLOUT ── */
+.callout {
+  margin: 10px 22px 14px;
+  padding: 12px 16px;
+  background: #edf4fd;
+  border: 1px solid #b8d4f4;
+  border-radius: var(--radius);
+  font-size: 14px; color: var(--text2); line-height: 1.7;
+}
+.callout strong { color: var(--accent); font-weight: 500; }
+
+/* ── NOTES SECTION ── */
+.notes-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.notes-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 22px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+  cursor: pointer;
+  user-select: none;
+}
+.notes-header:hover { background: #e8edf5; }
+.notes-title {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.notes-title .note-icon { font-size: 16px; }
+.notes-toggle { font-size: 13px; color: var(--text3); transition: transform 0.2s; }
+.notes-card.open .notes-toggle { transform: rotate(180deg); }
+.notes-body { display: none; padding: 16px 22px; }
+.notes-card.open .notes-body { display: block; }
+
+.notes-textarea {
+  width: 100%;
+  min-height: 130px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.notes-textarea:focus { border-color: var(--accent); background: white; }
+.notes-textarea::placeholder { color: var(--text3); }
+.notes-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 10px;
+}
+.notes-hint { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+.save-btn {
+  padding: 7px 18px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: background 0.15s;
+}
+.save-btn:hover { background: var(--accent2); }
+.save-btn.saved-flash { background: #2a6e40; }
+
+/* ── NAV ── */
+.week-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 20px;
+}
+.nav-btn {
+  padding: 9px 22px; border-radius: 6px; font-size: 14px; font-weight: 500;
+  border: 1.5px solid var(--border2); color: var(--text2); background: var(--bg2);
+  cursor: pointer; transition: all 0.15s; font-family: var(--sans);
+}
+.nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; }
+.nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.nav-btn.primary:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+.nav-counter { font-family: var(--mono); font-size: 13px; color: var(--text3); }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 60px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 11px; color: var(--text3);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .week-tab { font-size: 13px; padding: 6px 13px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="header-left">
+    <div class="header-tag">▸ Learning Roadmap / SMT Equipment</div>
+    <h1>SMT 設備學習計畫</h1>
+  </div>
+  <div class="save-indicator">
+    <div class="save-dot" id="saveDot"></div>
+    <span id="saveLabel">已儲存</span>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot ld-online"></div>線上自學</div>
+  <div class="legend-item"><div class="legend-dot ld-floor"></div>現場觀察</div>
+  <div class="legend-item"><div class="legend-dot ld-both"></div>線上 ＋ 現場</div>
+</div>
+
+<div class="week-tabs-wrap" id="weekTabs"></div>
+
+<div class="week-progress">
+  <span id="progLabel">0 / 0 項完成</span>
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+</div>
+
+<div id="weekContent"></div>
+
+<div class="week-nav">
+  <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← 上一週</button>
+  <span class="nav-counter" id="navCounter">1 / 8</span>
+  <button class="nav-btn primary" id="btnNext" onclick="navigate(1)">下一週 →</button>
+</div>
+
+<footer>
+  <span>SMT Learning Plan · 2024</span>
+  <span>資料儲存於本機瀏覽器 localStorage</span>
+</footer>
+</div>
+
+<script>
+const STORAGE_KEY = 'smt_plan_v2';
+
+const PLAN = [
+  {
+    phase: "第一階段：原理建立",
+    weeks: [
+      { w:1, goal:"建立 SMT 流程全貌，掌握各設備角色", equips:[
+        { name:"SMT 總流程概覽", icon:"🗺️", color:"#edf4fd", topics:[
+          { tag:"online", text:"YouTube 搜尋「SMT process overview」，掌握錫膏印刷→貼片→迴焊→檢測的全流程順序" },
+          { tag:"online", text:"閱讀 IPC-A-610（電子組裝可接受條件）簡介版，理解品質標準的基礎語言" },
+          { tag:"floor",  text:"跟著一張 PCB 從頭到尾走一遍產線，只觀察不問問題，先建立空間感與設備位置記憶" },
+        ]},
+        { name:"錫膏印刷機 Printer（DEK）— 初探", icon:"🖨️", color:"#edf3fd", topics:[
+          { tag:"online", text:"搜尋「solder paste printing process」，理解鋼板（stencil）、刮刀（squeegee）、PCB 對位的三角關係" },
+          { tag:"online", text:"YouTube 搜尋「stencil design guidelines」，學習開孔比例（area ratio）的基本計算邏輯" },
+        ]},
+      ]},
+      { w:2, goal:"深入了解 Printer 設備結構與製程參數", equips:[
+        { name:"錫膏印刷機 Printer（DEK）— 深入", icon:"🖨️", color:"#edf3fd", topics:[
+          { tag:"online", text:"搜尋「DEK printer solder paste」，了解 DEK（現 ASM）主流機型與介面特色，注意程式結構與命名方式" },
+          { tag:"online", text:"學習關鍵參數：印刷壓力（print pressure）、刮刀速度（speed）、脫板速度（separation speed）各對品質的影響方向" },
+          { tag:"online", text:"搜尋「solder paste inspection criteria」，理解常見缺陷：橋接（bridging）、偏移（offset）、錫量不足（insufficient）" },
+          { tag:"floor",  text:"現場觀察 Printer 換鋼板、清潔、對位校正的作業流程，注意 PSE 如何設定程式參數與調整哪些數值" },
+          { tag:"floor",  text:"觀察 SPI 檢測機輸出的報表，理解 Cp / Cpk 值對製程穩定性的意義" },
+        ]},
+      ]},
+      { w:3, goal:"掌握高速貼片機原理與元件知識", equips:[
+        { name:"貼片機 Mounter（高速機）", icon:"🤖", color:"#f3f0fb", topics:[
+          { tag:"online", text:"搜尋「SMT pick and place machine」，了解吸嘴（nozzle）、飛達（feeder）、視覺對位系統的分工關係" },
+          { tag:"online", text:"學習 SMD 元件識別：0201 / 0402 / 0603 封裝差異，Chip / IC / QFP / BGA 的貼裝精度要求" },
+          { tag:"online", text:"YouTube 搜尋「Fuji NXT」或「Yamaha YRM」教學影片，了解主流設備 UI 與程式結構（元件庫 / 座標文件格式）" },
+          { tag:"floor",  text:"觀察飛達更換作業（feeder change），注意不同料件如何上料、設備如何辨識料件位置與極性" },
+          { tag:"floor",  text:"請 PSE 展示如何用機台掃描 PCB Mark 點，理解視覺對位補正的概念與誤差容許範圍" },
+        ]},
+      ]},
+    ]
+  },
+  {
+    phase: "第二階段：設備實操觀察",
+    weeks: [
+      { w:4, goal:"AOI 視覺檢測原理與判讀", equips:[
+        { name:"自動光學檢測機 AOI", icon:"👁️", color:"#edf4fd", topics:[
+          { tag:"online", text:"搜尋「AOI automated optical inspection SMT」，了解 2D AOI 與 3D AOI 的差異及各自適用的缺陷類型" },
+          { tag:"online", text:"學習 AOI 常見缺陷分類：缺件（missing）、偏移（shift）、極性反（polarity）、立碑（tombstone）的判斷標準" },
+          { tag:"online", text:"搜尋「AOI false call reduction」，理解過多誤判（false call）對產線效率的影響與調整策略" },
+          { tag:"floor",  text:"現場觀察 AOI 判退畫面，了解操作員如何做 OK / NG 人工覆判（review），以及誤判常發生在哪類元件或焊點" },
+          { tag:"floor",  text:"詢問 PSE：一套 AOI 程式如何建立？從匯入 Gerber 到 teach-in 大概需要哪些步驟與時間？" },
+        ]},
+      ]},
+      { w:5, goal:"迴焊爐溫度曲線設定與焊接品質關係", equips:[
+        { name:"迴焊爐 Reflow Oven", icon:"🔥", color:"#fdf1eb", topics:[
+          { tag:"online", text:"搜尋「reflow oven temperature profile」，學習四個溫區：預熱（preheat）、浸潤（soak）、迴焊（reflow peak）、冷卻（cooling）的功能" },
+          { tag:"online", text:"搜尋「lead-free reflow profile SAC305」，了解無鉛錫膏的溫度要求、峰值溫度（peak temp）控制與時間限制（TAL）" },
+          { tag:"online", text:"理解常見缺陷的溫曲成因：冷焊（cold joint）→峰溫不足、錫珠（solder ball）→升溫過快、墓碑（tombstone）→不均勻加熱" },
+          { tag:"floor",  text:"請 PSE 展示如何用熱電偶量板（K-type thermocouple profiler）跑一次爐溫量測，理解量測數據與溫曲設定的對應" },
+          { tag:"floor",  text:"觀察換產品時是否需要切換溫度曲線，了解不同板型 / 元件的曲線差異有多大" },
+        ]},
+      ]},
+      { w:6, goal:"SPI 量測原理與鋼板管理", equips:[
+        { name:"錫膏檢測機 SPI", icon:"📏", color:"#edf4fd", topics:[
+          { tag:"online", text:"搜尋「3D SPI solder paste inspection」，了解 SPI 如何用結構光或雷射量測錫膏體積（volume）、高度（height）、面積（area）三項指標" },
+          { tag:"online", text:"搜尋「SPI Koh Young」或「SPI Saki」了解主流 SPI 設備的判斷邏輯，以及如何與 Printer 做 SPC 閉迴路回饋（closed-loop feedback）" },
+          { tag:"floor",  text:"觀察 SPI 與 Printer 的連線方式，確認 closed-loop 補償功能是否啟用，理解自動補償的參數與限制" },
+          { tag:"floor",  text:"了解鋼板管理流程：使用次數計算方式、清洗頻率規範、報廢標準是如何由 PSE 或品質決定" },
+        ]},
+      ]},
+    ]
+  },
+  {
+    phase: "第三階段：整合與 PO 視角",
+    weeks: [
+      { w:7, goal:"切割機 Router 與整線流程收尾", equips:[
+        { name:"切割機 Router / Depaneling", icon:"✂️", color:"#f3f0fb", topics:[
+          { tag:"online", text:"搜尋「PCB depaneling router vs V-cut」，了解 V-Cut 與銑切（routing）兩種分板方式的差異、優缺點與適用板型設計" },
+          { tag:"online", text:"搜尋「PCB routing stress component clearance」，理解分板時機械應力對 BGA / 電容的風險，以及 PSE 需要知道的安全距離要求" },
+          { tag:"online", text:"了解主軸轉速（spindle speed）、進給速度（feed rate）、銑刀更換週期對切割品質與毛邊（burr）的影響關係" },
+          { tag:"floor",  text:"觀察 Router 夾持治具（fixture）如何固定板子、換刀 SOP 流程、切割後是否有毛邊目視或量測的檢查站" },
+          { tag:"floor",  text:"了解切割後的下一站（ICT / FCT / 外觀）銜接方式，確認整體流程如何記錄與追溯" },
+        ]},
+      ]},
+      { w:8, goal:"整合所有設備，建立 PO 所需的系統視角",
+        callout:"第八週建議產出：（1）設備觀察報告 — 每台設備程式現況、傳遞方式、自動化程度；（2）程式流程現況圖 — 視覺化呈現各設備間的資料流向。這兩份文件可直接作為向處長報告的學習成果，也是未來擔任 PO 的第一份需求基礎文件。",
+        equips:[
+          { name:"整線整合與 PO 思維", icon:"🧩", color:"#edf4fd", topics:[
+            { tag:"both",   text:"整理各設備的程式命名規則與版本管理方式，對照 DTM 平台的程式傳遞流程，找出現有缺口與 DTM 可介入的環節" },
+            { tag:"both",   text:"製作一份「設備 × 關鍵參數 × 常見缺陷」對照表，作為未來 PO 需求訪談的基礎文件與設備知識快速參考" },
+            { tag:"floor",  text:"與 PSE 進行一次訪談：每台設備最常遇到的問題是什麼？目前哪些手動步驟最耗時？哪些地方最容易出錯？" },
+            { tag:"online", text:"搜尋「SMT line OEE calculation」，理解設備稼動率（OEE）如何計算，做為未來專案 KPI 設定的基礎語言" },
+            { tag:"floor",  text:"完成一份現場觀察報告：每台設備的程式來源、傳遞方式、目前自動化程度，作為專案 Kickoff 的輸入文件" },
+          ]},
+        ]
+      },
+    ]
+  }
+];
+
+const ALL_WEEKS = PLAN.flatMap(p => p.weeks.map(w => ({ ...w, phase: p.phase })));
+let currentWeek = 0;
+
+// ── STORAGE ──
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  flashSaved();
+}
+let saveTimer;
+function flashSaved() {
+  const dot = document.getElementById('saveDot');
+  const lbl = document.getElementById('saveLabel');
+  dot.classList.add('saved');
+  lbl.textContent = '已儲存';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    dot.classList.remove('saved');
+    lbl.textContent = '自動儲存';
+  }, 2000);
+}
+
+function topicKey(wi, ei, ti) { return `w${wi}_e${ei}_t${ti}`; }
+function noteKey(wi) { return `note_w${wi}`; }
+
+// ── BUILD ──
+function tagClass(tag) {
+  if (tag === 'online') return 'type-online';
+  if (tag === 'floor')  return 'type-floor';
+  return 'type-both';
+}
+function tagLabel(tag) {
+  if (tag === 'online') return '線上';
+  if (tag === 'floor')  return '現場';
+  return '線上＋現場';
+}
+
+function buildTabs() {
+  const container = document.getElementById('weekTabs');
+  ALL_WEEKS.forEach((w, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'week-tab' + (i === 0 ? ' active' : '');
+    btn.id = `tab-${i}`;
+    btn.textContent = `第 ${w.w} 週`;
+    btn.onclick = () => showWeek(i);
+    container.appendChild(btn);
+  });
+}
+
+function buildWeekContent() {
+  const container = document.getElementById('weekContent');
+  const data = loadData();
+
+  ALL_WEEKS.forEach((week, wi) => {
+    const view = document.createElement('div');
+    view.className = 'week-view' + (wi === 0 ? ' visible' : '');
+    view.id = `wv-${wi}`;
+
+    // Equip sections
+    const equipHTML = week.equips.map((eq, ei) => {
+      const topicsHTML = eq.topics.map((t, ti) => {
+        const key = topicKey(wi, ei, ti);
+        const isDone = data[key] === true;
+        return `
+          <div class="topic-item ${tagClass(t.tag)}${isDone ? ' done' : ''}" id="item-${wi}-${ei}-${ti}">
+            <div class="topic-check${isDone ? ' checked' : ''}" id="chk-${wi}-${ei}-${ti}"
+              onclick="toggleCheck(${wi},${ei},${ti})"></div>
+            <span class="topic-tag">${tagLabel(t.tag)}</span>
+            <div class="topic-text-wrap">${t.text}</div>
+          </div>`;
+      }).join('');
+
+      const doneCount = eq.topics.filter((_, ti) => data[topicKey(wi, ei, ti)] === true).length;
+
+      return `
+        <div class="equip-section" id="eq-${wi}-${ei}">
+          <div class="equip-title-row" onclick="toggleEquip('eq-${wi}-${ei}')">
+            <div class="equip-icon-box" style="background:${eq.color}">${eq.icon}</div>
+            <div class="equip-name-label">${eq.name}</div>
+            <div class="equip-meta">
+              ${doneCount > 0 ? `<span class="equip-done-count" id="dc-${wi}-${ei}">✓ ${doneCount}/${eq.topics.length}</span>` : `<span class="equip-done-count" id="dc-${wi}-${ei}" style="display:none">✓ 0/${eq.topics.length}</span>`}
+              <span class="equip-toggle">▾</span>
+            </div>
+          </div>
+          <div class="equip-topics">${topicsHTML}</div>
+        </div>`;
+    }).join('');
+
+    const callout = week.callout
+      ? `<div class="callout"><strong>✦ 產出目標</strong> — ${week.callout}</div>` : '';
+
+    // Notes section
+    const savedNote = data[noteKey(wi)] || '';
+
+    view.innerHTML = `
+      <div class="week-card">
+        <div class="week-card-header">
+          <span class="week-num-badge">Week ${week.w}</span>
+          <span class="week-phase-tag">${week.phase}</span>
+        </div>
+        <div class="week-goal-head">${week.goal}</div>
+        ${equipHTML}
+        ${callout}
+      </div>
+      <div class="notes-card" id="notes-card-${wi}">
+        <div class="notes-header" onclick="toggleNotes(${wi})">
+          <div class="notes-title"><span class="note-icon">📝</span> 第 ${week.w} 週學習筆記</div>
+          <span class="notes-toggle">▾</span>
+        </div>
+        <div class="notes-body">
+          <textarea class="notes-textarea" id="note-${wi}"
+            placeholder="在這裡記錄本週的學習心得、疑問、現場觀察重點…"
+            oninput="autoSaveNote(${wi})">${savedNote}</textarea>
+          <div class="notes-actions">
+            <span class="notes-hint">⌘+Enter 儲存 · 自動儲存</span>
+            <button class="save-btn" id="savebtn-${wi}" onclick="saveNote(${wi})">儲存筆記</button>
+          </div>
+        </div>
+      </div>`;
+
+    container.appendChild(view);
+
+    // Open first equip by default
+    setTimeout(() => {
+      const firstEq = document.getElementById(`eq-${wi}-0`);
+      if (firstEq) firstEq.classList.add('open');
+    }, 0);
+  });
+}
+
+// ── INTERACTIONS ──
+function toggleCheck(wi, ei, ti) {
+  const data = loadData();
+  const key = topicKey(wi, ei, ti);
+  data[key] = !data[key];
+  saveData(data);
+
+  const item = document.getElementById(`item-${wi}-${ei}-${ti}`);
+  const chk  = document.getElementById(`chk-${wi}-${ei}-${ti}`);
+  item.classList.toggle('done', data[key]);
+  chk.classList.toggle('checked', data[key]);
+
+  updateEquipCount(wi, ei);
+  updateProgress(wi);
+  updateTabDot(wi);
+}
+
+function updateEquipCount(wi, ei) {
+  const data = loadData();
+  const eq = ALL_WEEKS[wi].equips[ei];
+  const done = eq.topics.filter((_, ti) => data[topicKey(wi, ei, ti)] === true).length;
+  const el = document.getElementById(`dc-${wi}-${ei}`);
+  if (el) {
+    el.textContent = `✓ ${done}/${eq.topics.length}`;
+    el.style.display = done > 0 ? '' : 'none';
+  }
+}
+
+function updateProgress(wi) {
+  const data = loadData();
+  const week = ALL_WEEKS[wi];
+  const total = week.equips.reduce((s, eq) => s + eq.topics.length, 0);
+  const done  = week.equips.reduce((s, eq, ei) =>
+    s + eq.topics.filter((_, ti) => data[topicKey(wi, ei, ti)] === true).length, 0);
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `${done} / ${total} 項完成`;
+}
+
+function updateTabDot(wi) {
+  const data = loadData();
+  const week = ALL_WEEKS[wi];
+  const total = week.equips.reduce((s, eq) => s + eq.topics.length, 0);
+  const done  = week.equips.reduce((s, eq, ei) =>
+    s + eq.topics.filter((_, ti) => data[topicKey(wi, ei, ti)] === true).length, 0);
+  const tab = document.getElementById(`tab-${wi}`);
+  if (tab) tab.classList.toggle('has-done', done > 0);
+}
+
+function toggleEquip(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function toggleNotes(wi) {
+  document.getElementById(`notes-card-${wi}`).classList.toggle('open');
+}
+
+let noteTimers = {};
+function autoSaveNote(wi) {
+  clearTimeout(noteTimers[wi]);
+  noteTimers[wi] = setTimeout(() => saveNote(wi, true), 1500);
+}
+
+function saveNote(wi, silent = false) {
+  const data = loadData();
+  data[noteKey(wi)] = document.getElementById(`note-${wi}`).value;
+  saveData(data);
+  if (!silent) {
+    const btn = document.getElementById(`savebtn-${wi}`);
+    btn.textContent = '已儲存 ✓';
+    btn.classList.add('saved-flash');
+    setTimeout(() => { btn.textContent = '儲存筆記'; btn.classList.remove('saved-flash'); }, 1500);
+  }
+}
+
+// Keyboard shortcut
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    const ta = document.querySelector(`#wv-${currentWeek} .notes-textarea`);
+    if (ta && document.activeElement === ta) saveNote(currentWeek);
+  }
+});
+
+function showWeek(idx) {
+  currentWeek = idx;
+  document.querySelectorAll('.week-view').forEach((v, i) => v.classList.toggle('visible', i === idx));
+  document.querySelectorAll('.week-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.getElementById('navCounter').textContent = `${idx + 1} / ${ALL_WEEKS.length}`;
+  document.getElementById('btnPrev').disabled = idx === 0;
+  document.getElementById('btnNext').disabled = idx === ALL_WEEKS.length - 1;
+  updateProgress(idx);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function navigate(dir) {
+  const next = currentWeek + dir;
+  if (next >= 0 && next < ALL_WEEKS.length) showWeek(next);
+}
+
+// ── INIT ──
+buildTabs();
+buildWeekContent();
+// Update all tab dots on load
+ALL_WEEKS.forEach((_, i) => updateTabDot(i));
+showWeek(0);
+document.getElementById('saveLabel').textContent = '自動儲存';
+</script>
+</body>
+</html>
