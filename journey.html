@@ -1,0 +1,367 @@
+<!doctype html><html><head><title>設備導入旅程地圖</title><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0e141c;
+    --surface: #171f2a;
+    --surface-2: #1e2836;
+    --surface-3: #26313f;
+    --line: #2a3543;
+    --line-soft: #202a37;
+    --text: #eef1f4;
+    --text-soft: #b9c2cc;
+    --muted: #7e8996;
+    --route: #e8a33d;
+    --route-soft: #4a3a1e;
+    --pse: #4fb8ae;
+    --pse-soft: #163330;
+    --da: #a78bfa;
+    --da-soft: #2c2649;
+    --it: #f472b6;
+    --it-soft: #3a1f2c;
+    --pain: #ef5b5b;
+    --pain-soft: #3a1c1c;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -12px rgba(0,0,0,.65);
+    --font-display: "Archivo", "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    --font-body: "Archivo", "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    --font-mono: "IBM Plex Mono", "Noto Sans Mono TC", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--ink);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); margin: 0; text-wrap: balance; }
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  a { color: var(--route); }
+  ::selection { background: var(--route); color: var(--ink); }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 64px 28px 100px; }
+
+  /* ---------- Hero ---------- */
+  .hero { padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--route); font-weight: 500; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1.5px; background: var(--route); }
+  .hero h1 {
+    font-size: clamp(34px, 5.2vw, 56px); font-weight: 800; letter-spacing: -.01em; margin-top: 16px; max-width: 16ch;
+  }
+  .hero .lede { font-size: 16.5px; color: var(--text-soft); max-width: 62ch; margin-top: 18px; }
+  .hero .lede b { color: var(--text); font-weight: 600; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); margin-top: 40px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  @media (max-width: 720px) { .stat-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--surface); padding: 20px 20px 22px; }
+  .stat .n { font-family: var(--font-display); font-weight: 900; font-size: 40px; color: var(--route); line-height: 1; }
+  .stat .n small { font-size: 16px; font-weight: 700; color: var(--text-soft); margin-left: 3px; }
+  .stat .l { font-size: 12.5px; color: var(--muted); margin-top: 8px; letter-spacing: .02em; }
+
+  /* ---------- Compare chart ---------- */
+  .section { margin-top: 64px; }
+  .section-head { margin-bottom: 22px; }
+  .section-head .tag { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .section-head h2 { font-size: 24px; font-weight: 800; margin-top: 6px; }
+  .section-head p { font-size: 14px; color: var(--text-soft); margin-top: 8px; max-width: 64ch; }
+
+  .compare { display: flex; flex-direction: column; gap: 14px; }
+  .compare-row { display: grid; grid-template-columns: 150px 1fr 56px; align-items: center; gap: 14px; }
+  @media (max-width: 600px) { .compare-row { grid-template-columns: 96px 1fr 40px; } }
+  .compare-row .name { font-family: var(--font-mono); font-size: 13px; color: var(--text-soft); }
+  .compare-row .name .sub { display: block; font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .compare-track { height: 26px; background: var(--surface-2); border-radius: 5px; overflow: hidden; position: relative; border: 1px solid var(--line); }
+  .compare-fill { height: 100%; border-radius: 4px 0 0 4px; display: flex; align-items: center; }
+  .compare-row.worst .compare-fill { background: linear-gradient(90deg, var(--route), #f4c46a); }
+  .compare-row:not(.worst) .compare-fill { background: var(--surface-3); }
+  .compare-row .count { font-family: var(--font-mono); font-weight: 700; font-size: 15px; text-align: right; color: var(--text); }
+  .compare-row.worst .count { color: var(--route); }
+
+  /* ---------- Journey ---------- */
+  .journey-note {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    font-size: 13px; color: var(--text-soft); margin-top: -6px;
+  }
+  .role-key { display: flex; align-items: center; gap: 6px; }
+  .role-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .role-dot.pse { background: var(--pse); }
+  .role-dot.da { background: var(--da); }
+  .pain-key { display: flex; align-items: center; gap: 6px; color: var(--pain); font-weight: 600; }
+
+  .route-line { position: relative; margin-top: 36px; padding-left: 30px; }
+  .route-line::before {
+    content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px;
+    background: repeating-linear-gradient(to bottom, var(--route) 0 6px, transparent 6px 12px);
+  }
+  .phase-band { position: relative; margin-bottom: 30px; }
+  .phase-band:last-child { margin-bottom: 0; }
+  .phase-dot {
+    position: absolute; left: -30px; top: 2px; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--ink); border: 2px solid var(--route); z-index: 2;
+  }
+  .phase-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .phase-head .p-name { font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+  .phase-head .p-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .phase-head .p-effort { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); }
+  .effort-dots { display: flex; gap: 3px; }
+  .effort-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--surface-3); }
+  .effort-dots span.on { background: var(--route); }
+
+  .step-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .step {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    padding: 10px 12px; width: 168px; box-shadow: var(--shadow); position: relative;
+  }
+  .step.pain { border-color: var(--pain); background: linear-gradient(180deg, var(--pain-soft), var(--surface)); }
+  .step-top { display: flex; align-items: center; justify-content: space-between; }
+  .step-n { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .step-role { font-size: 9.5px; font-weight: 700; letter-spacing: .04em; padding: 1px 6px; border-radius: 100px; }
+  .step-role.pse { background: var(--pse-soft); color: var(--pse); }
+  .step-role.da { background: var(--da-soft); color: var(--da); }
+  .step-role.it { background: var(--it-soft); color: var(--it); }
+  .step-label { font-size: 12.8px; color: var(--text); margin-top: 7px; line-height: 1.4; }
+  .step-flag { font-size: 11px; color: var(--pain); margin-top: 6px; font-weight: 600; display: flex; gap: 4px; align-items: flex-start; }
+
+  .handoff {
+    display: flex; align-items: center; gap: 10px; margin: 4px 0 4px -30px; padding-left: 30px;
+    font-family: var(--font-mono); font-size: 11.5px; color: var(--route); font-weight: 600;
+  }
+  .handoff::after { content: ""; flex: 1; height: 1px; background: var(--route-soft); }
+
+  /* ---------- Effort curve ---------- */
+  .curve-wrap { padding: 24px 24px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .curve-legend { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 10px; }
+
+  /* ---------- Closing ---------- */
+  .closer {
+    margin-top: 70px; padding: 32px; border: 1px solid var(--line); border-radius: 14px;
+    background: linear-gradient(155deg, var(--surface), var(--surface-2));
+  }
+  .closer .big { font-family: var(--font-display); font-weight: 800; font-size: 26px; max-width: 30ch; text-wrap: balance; }
+  .closer .big .hl { color: var(--route); }
+  .closer p { color: var(--text-soft); font-size: 14.5px; margin-top: 14px; max-width: 62ch; }
+  .closer .foot-stats { display: flex; gap: 28px; margin-top: 22px; flex-wrap: wrap; }
+  .closer .foot-stats div { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+  .closer .foot-stats b { color: var(--text); font-size: 15px; }
+
+  footer { margin-top: 40px; font-size: 12px; color: var(--muted); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .step, .stat, .compare-fill { animation: rise .5s ease backwards; }
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">DTM-SMT 設備導入 · 使用者旅程地圖</div>
+    <h1>「自動生成」開始之前，還有一段很長的路</h1>
+    <p class="lede">
+      DTM 的自動程式生成，指的是<b>電子表頭 → 程式檔案</b>這一小段。但使用者要走到「按下生成」那一刻之前，
+      得先完成一連串手動的帳號、權限、共享資料夾與模板準備工作 — 而且<b>每一種設備組合都要重新走一次</b>。
+      以下以目前最繁瑣的情境 <b>Reflow（Vicon 1.37 以下版本）</b> 為例，還原 PSE 一個人實際會經歷的完整旅程。
+    </p>
+    <div class="stat-row">
+      <div class="stat" style="animation-delay:.02s"><div class="n">31<small>步</small></div><div class="l">最複雜情境的手動步驟數</div></div>
+      <div class="stat" style="animation-delay:.08s"><div class="n">1<small>人</small></div><div class="l">從機台到 DTM 全程獨力完成</div></div>
+      <div class="stat" style="animation-delay:.14s"><div class="n">7</div><div class="l">必經階段（Phase 1–7）</div></div>
+      <div class="stat" style="animation-delay:.2s"><div class="n">4<small>種</small></div><div class="l">設備組合，各自要重來一次</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="tag">Cross-Equipment Comparison</div>
+      <h2>四種設備組合，步驟數都不算少</h2>
+      <p>CheckList 依設備類型分成四份，步驟數從 17 到 31 不等 — 旅程長度會因設備新舊、廠牌而不同，但沒有一種是「按一下就好」。</p>
+    </div>
+    <div class="compare">
+      <div class="compare-row worst">
+        <div class="name">Reflow<span class="sub">Vicon 1.37 以下</span></div>
+        <div class="compare-track"><div class="compare-fill" style="width:100%"></div></div>
+        <div class="count">31</div>
+      </div>
+      <div class="compare-row">
+        <div class="name">Reflow<span class="sub">Vicon 1.37 以上</span></div>
+        <div class="compare-track"><div class="compare-fill" style="width:80.6%"></div></div>
+        <div class="count">25</div>
+      </div>
+      <div class="compare-row">
+        <div class="name">Printer<span class="sub">GKG</span></div>
+        <div class="compare-track"><div class="compare-fill" style="width:74.2%"></div></div>
+        <div class="count">23</div>
+      </div>
+      <div class="compare-row">
+        <div class="name">Printer<span class="sub">DEK</span></div>
+        <div class="compare-track"><div class="compare-fill" style="width:54.8%"></div></div>
+        <div class="count">17</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="tag">The Journey · Reflow (Vicon 1.37 以下)</div>
+      <h2>PSE 一個人的 31 步旅程</h2>
+      <p>沒有 Import 功能、沒有共享路徑可用——從機台端建立帳號、資料夾，到 DTM 端登錄路徑、配置 Template、執行生成，再回到機台手動匯入驗證，全部由 PSE 一個人跑完。</p>
+    </div>
+    <div class="journey-note">
+      <span class="role-key"><span class="role-dot pse"></span>PSE 獨立完成全部 7 個階段</span>
+      <span class="pain-key">⚠ 高摩擦步驟</span>
+    </div>
+
+    <div class="route-line" id="route"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="tag">Perceived Effort</div>
+      <h2>努力曲線：兩段「純手動」把體感拉到最高</h2>
+      <p>Phase 2（本機建帳號、建共享資料夾）與 Phase 6（手動匯入驗證）完全沒有自動化介入，是整趟旅程中最耗神的兩段。</p>
+    </div>
+    <div class="curve-wrap">
+      <svg viewBox="0 0 900 220" style="width:100%; height:auto; display:block;" id="curve-svg"></svg>
+      <div class="curve-legend">
+        <span>Phase 1</span><span>Phase 2</span><span>Phase 3</span><span>Phase 4</span><span>Phase 5</span><span>Phase 6</span><span>Phase 7</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="closer">
+    <div class="big">同樣的旅程，<span class="hl">每加一座新廠、每換一種設備</span>就得重走一次。</div>
+    <p>目前 BG2 範圍內已有 9 座廠、最多 4 種設備組合待導入 — 若以最繁瑣的 Reflow 1.37 以下情境估算，光是「生成」前的準備工作，理論上就有機會重複超過 30 步 × 多個廠別的手動作業量。這正是接下來優化（例如共用帳號範本、批次匯入工具）可以鎖定的目標。</p>
+    <div class="foot-stats">
+      <div>資料來源 <b>DTM_SMT設備導入CheckList.xlsx</b></div>
+      <div>整理角度 <b>PO / 使用者旅程</b></div>
+    </div>
+  </div>
+
+  <footer>此頁彙整自設備導入 CheckList，用於向管理層說明現行流程的人力與步驟負擔，不代表 DTM 系統本身的技術限制。</footer>
+</div>
+
+<script>
+(function(){
+  var phases = [
+    { name: 'Phase 1', title: '取得程式模板', role: 'pse', effort: 4, steps: [
+        '確認版本為 Vicon 1.37-',
+        '取得最高權限帳號',
+        '登入設備',
+        '開啟數據庫',
+        'CSV 導入/導出',
+        '導出 CSV',
+        '留存 Programs.csv 供生成使用'
+      ], flags: {0:'需向廠商索取最高權限密碼'} },
+    { name: 'Phase 2', title: '建立共享資料夾', role: 'pse', effort: 5, steps: [
+        '建立 Local User',
+        '建立 D 槽共享資料夾',
+        '開啟共享權限',
+        '設定讀寫權限',
+        '記錄共享路徑'
+      ], flags: {0:'全程手動、無範本可套用'} },
+    { name: 'Phase 3', title: 'DTM 設備建檔', role: 'pse', effort: 2, steps: [
+        '填寫共享路徑', '填寫帳號', '填寫密碼', '路徑測試成功'
+      ], flags: {3:'路徑或帳密填錯需自行回頭排查'} },
+    { name: 'Phase 4', title: 'Template 配置', role: 'pse', effort: 1, steps: [
+        '完成 Template 配置'
+      ], flags: {} },
+    { name: 'Phase 5', title: '程式生成', role: 'pse', effort: 2, steps: [
+        'DTM 新增版號資訊', '執行生成', 'CSV 成功產出', '檔案進入共享資料夾'
+      ], flags: {} },
+    { name: 'Phase 6', title: '手動匯入驗證', role: 'pse', effort: 5, steps: [
+        '開啟數據庫', 'CSV 導入/導出', '導入程序', '選擇生成 CSV', '完成導入', '程式建立成功'
+      ], flags: {2:'匯入步驟與 Phase1 相同介面，容易誤操作'} },
+    { name: 'Phase 7', title: '上線驗證', role: 'pse', effort: 3, steps: [
+        'PSE 開啟程式驗證', '參數正確', '首件驗證成功', '正式上線'
+      ], flags: {} }
+  ];
+
+  var roleLabel = { pse: 'PSE' };
+  var route = document.getElementById('route');
+  var globalIdx = 0;
+  phases.forEach(function(ph){
+    var band = document.createElement('div');
+    band.className = 'phase-band';
+    var stepsHTML = ph.steps.map(function(s, i){
+      globalIdx++;
+      var flag = ph.flags[i];
+      return '<div class="step' + (flag ? ' pain' : '') + '">' +
+        '<div class="step-top"><span class="step-n">' + String(globalIdx).padStart(2,'0') + '</span>' +
+          '<span class="step-role ' + ph.role + '">' + roleLabel[ph.role] + '</span></div>' +
+        '<div class="step-label">' + s + '</div>' +
+        (flag ? '<div class="step-flag">⚠ ' + flag + '</div>' : '') +
+      '</div>';
+    }).join('');
+    var effortDots = '';
+    for (var d = 1; d <= 5; d++) effortDots += '<span class="' + (d <= ph.effort ? 'on' : '') + '"></span>';
+    band.innerHTML =
+      '<div class="phase-dot"></div>' +
+      '<div class="phase-head">' +
+        '<span class="p-name">' + ph.name + ' — ' + ph.title + '</span>' +
+        '<span class="p-meta">' + ph.steps.length + ' 步驟</span>' +
+        '<span class="p-effort">體感負擔 <span class="effort-dots">' + effortDots + '</span></span>' +
+      '</div>' +
+      '<div class="step-grid">' + stepsHTML + '</div>' +
+      (ph.handoffAfter ? '<div class="handoff">⇄ ' + ph.handoffAfter + '</div>' : '');
+    route.appendChild(band);
+  });
+
+  // Effort curve SVG
+  var svg = document.getElementById('curve-svg');
+  var svgNS = 'http://www.w3.org/2000/svg';
+  var W = 900, H = 220, padL = 24, padR = 24, padT = 20, padB = 16;
+  var plotW = W - padL - padR, plotH = H - padT - padB;
+  var vals = phases.map(function(p){ return p.effort; });
+  function xPos(i){ return padL + (i/(vals.length-1)) * plotW; }
+  function yPos(v){ return padT + (1 - (v-1)/4) * plotH; }
+
+  [1,2,3,4,5].forEach(function(v){
+    var y = yPos(v);
+    var line = document.createElementNS(svgNS,'line');
+    line.setAttribute('x1', padL); line.setAttribute('x2', W-padR);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('stroke', 'var(--line-soft)'); line.setAttribute('stroke-width','1');
+    svg.appendChild(line);
+  });
+
+  var areaPts = vals.map(function(v,i){ return xPos(i) + ',' + yPos(v); }).join(' ');
+  var area = document.createElementNS(svgNS,'polygon');
+  area.setAttribute('points', padL+','+(padT+plotH)+' '+areaPts+' '+(W-padR)+','+(padT+plotH));
+  area.setAttribute('fill', 'url(#grad)');
+  var defs = document.createElementNS(svgNS,'defs');
+  var grad = document.createElementNS(svgNS,'linearGradient');
+  grad.setAttribute('id','grad'); grad.setAttribute('x1','0'); grad.setAttribute('y1','0'); grad.setAttribute('x2','0'); grad.setAttribute('y2','1');
+  var stop1 = document.createElementNS(svgNS,'stop'); stop1.setAttribute('offset','0%'); stop1.setAttribute('stop-color','#e8a33d'); stop1.setAttribute('stop-opacity','.45');
+  var stop2 = document.createElementNS(svgNS,'stop'); stop2.setAttribute('offset','100%'); stop2.setAttribute('stop-color','#e8a33d'); stop2.setAttribute('stop-opacity','0');
+  grad.appendChild(stop1); grad.appendChild(stop2); defs.appendChild(grad); svg.appendChild(defs);
+  svg.appendChild(area);
+
+  var pathD = vals.map(function(v,i){ return (i===0?'M':'L') + xPos(i) + ' ' + yPos(v); }).join(' ');
+  var path = document.createElementNS(svgNS,'path');
+  path.setAttribute('d', pathD); path.setAttribute('fill','none'); path.setAttribute('stroke', '#e8a33d');
+  path.setAttribute('stroke-width','3'); path.setAttribute('stroke-linecap','round'); path.setAttribute('stroke-linejoin','round');
+  svg.appendChild(path);
+
+  vals.forEach(function(v,i){
+    var c = document.createElementNS(svgNS,'circle');
+    c.setAttribute('cx', xPos(i)); c.setAttribute('cy', yPos(v)); c.setAttribute('r', 5);
+    c.setAttribute('fill', '#0e141c'); c.setAttribute('stroke', '#e8a33d'); c.setAttribute('stroke-width','2.5');
+    svg.appendChild(c);
+    var t = document.createElementNS(svgNS,'text');
+    t.setAttribute('x', xPos(i)); t.setAttribute('y', yPos(v) - 12); t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-size','12'); t.setAttribute('font-family','IBM Plex Mono, monospace'); t.setAttribute('fill', '#b9c2cc');
+    t.textContent = v;
+    svg.appendChild(t);
+  });
+})();
+</script>
+
+</body></html>
