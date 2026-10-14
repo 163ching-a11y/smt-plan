@@ -208,7 +208,7 @@
       以下以目前最繁瑣的情境 <b>Reflow（Vicon 1.37 以下版本）</b> 為例，還原 PSE（依產線分工約 1–3 人）實際會經歷的完整旅程。
     </p>
     <div class="stat-row">
-      <div class="stat" style="animation-delay:.02s"><div class="n">29<small>步</small></div><div class="l">最複雜情境的手動步驟數</div></div>
+      <div class="stat" style="animation-delay:.02s"><div class="n">31<small>步</small></div><div class="l">最複雜情境的手動步驟數</div></div>
       <div class="stat" style="animation-delay:.08s"><div class="n">1–3<small>人</small></div><div class="l">從機台到 DTM 全程經手人數（依產線分工）</div></div>
       <div class="stat" style="animation-delay:.14s"><div class="n">6</div><div class="l">必經階段（Phase 1–6）</div></div>
       <div class="stat" style="animation-delay:.2s"><div class="n">4<small>種</small></div><div class="l">設備組合，各自要重來一次</div></div>
@@ -282,27 +282,27 @@
     <div class="section-head">
       <div class="tag">Cross-Equipment Comparison</div>
       <h2>四種設備組合，步驟數都不算少</h2>
-      <p>CheckList 依設備類型分成四份，步驟數從 17 到 29 不等 — 旅程長度會因設備新舊、廠牌而不同，但沒有一種是「按一下就好」。</p>
+      <p>CheckList 依設備類型分成四份，步驟數從 17 到 31 不等 — 旅程長度會因設備新舊、廠牌而不同，但沒有一種是「按一下就好」。</p>
     </div>
     <div class="compare">
       <div class="compare-row worst">
         <div class="name">Reflow<span class="sub">Vicon 1.37 以下</span></div>
         <div class="compare-track"><div class="compare-fill" style="width:100%"></div></div>
-        <div class="count">29</div>
+        <div class="count">31</div>
       </div>
       <div class="compare-row">
         <div class="name">Reflow<span class="sub">Vicon 1.37 以上</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:86.2%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:80.6%"></div></div>
         <div class="count">25</div>
       </div>
       <div class="compare-row">
         <div class="name">Printer<span class="sub">GKG</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:79.3%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:74.2%"></div></div>
         <div class="count">23</div>
       </div>
       <div class="compare-row">
         <div class="name">Printer<span class="sub">DEK</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:58.6%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:54.8%"></div></div>
         <div class="count">17</div>
       </div>
     </div>
@@ -311,7 +311,7 @@
   <div class="section">
     <div class="section-head">
       <div class="tag">The Journey · Reflow (Vicon 1.37 以下)</div>
-      <h2>PSE 的 29 步旅程</h2>
+      <h2>PSE 的 31 步旅程</h2>
       <p>沒有 Import 功能、沒有共享路徑可用——從機台端建立帳號、資料夾，到 DTM 端新增線別、登錄路徑、執行生成，再回到機台手動匯入驗證，全部由 PSE 跑完 — 依產線分工，過程中約有 1–3 人經手。</p>
     </div>
     <div class="journey-note">
@@ -338,7 +338,7 @@
 
   <div class="closer">
     <div class="big">同樣的旅程，<span class="hl">每加一座新廠、每換一種設備</span>就得重走一次。</div>
-    <p>目前 BG2 範圍內已有 9 座廠、最多 4 種設備組合待導入 — 若以最繁瑣的 Reflow 1.37 以下情境估算，光是「生成」前的準備工作，理論上就有機會重複近 30 步 × 多個廠別的手動作業量。這正是接下來優化（例如共用帳號範本、批次匯入工具）可以鎖定的目標。</p>
+    <p>目前 BG2 範圍內已有 9 座廠、最多 4 種設備組合待導入 — 若以最繁瑣的 Reflow 1.37 以下情境估算，光是「生成」前的準備工作，理論上就有機會重複超過 30 步 × 多個廠別的手動作業量。這正是接下來優化（例如共用帳號範本、批次匯入工具）可以鎖定的目標。</p>
     <div class="foot-stats">
       <div>資料來源 <b>DTM_SMT設備導入CheckList.xlsx</b></div>
       <div>整理角度 <b>PO / 使用者旅程</b></div>
@@ -368,10 +368,8 @@
         '記錄共享路徑'
       ], flags: {0:'全程手動、無範本可套用'} },
     { name: 'Phase 3', title: 'DTM 設備建檔', role: 'pse', effort: 2, steps: [
-        '新增線別資料', '填寫共享路徑', '填寫帳號', '填寫密碼', '路徑測試成功'
-      ], flags: {4:'路徑或帳密填錯需自行回頭排查'}, isNew: {0:'DTM【線別管理】→ 新增'},
-      figure: { src: 'journey-line-setup.webp', alt: 'DTM 線別管理新增線別資料畫面', step: 0,
-        caption: '點選左側【線別管理】→ 按右上【新增】填寫基本資訊（廠區、工廠代碼、線別名稱、線別ID）→ 新增完成後按【確認】。' } },
+        '點選【線別管理】欄位', '按【新增】填寫基本資訊', '新增完成，按【確認】', '填寫共享路徑', '填寫帳號', '填寫密碼', '路徑測試成功'
+      ], flags: {6:'路徑或帳密填錯需自行回頭排查'} },
     { name: 'Phase 4', title: '程式生成', role: 'pse', effort: 2, steps: [
         'DTM 新增版號資訊', '執行生成', 'CSV 成功產出', '檔案進入共享資料夾'
       ], flags: {} },
