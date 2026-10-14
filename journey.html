@@ -168,12 +168,12 @@
     <p class="lede">
       DTM 的自動程式生成，指的是<b>電子表頭 → 程式檔案</b>這一小段。但使用者要走到「按下生成」那一刻之前，
       得先完成一連串手動的帳號、權限、共享資料夾與模板準備工作 — 而且<b>每一種設備組合都要重新走一次</b>。
-      以下以目前最繁瑣的情境 <b>Reflow（Vicon 1.37 以下版本）</b> 為例，還原 PSE 一個人實際會經歷的完整旅程。
+      以下以目前最繁瑣的情境 <b>Reflow（Vicon 1.37 以下版本）</b> 為例，還原 PSE（依產線分工約 1–3 人）實際會經歷的完整旅程。
     </p>
     <div class="stat-row">
-      <div class="stat" style="animation-delay:.02s"><div class="n">31<small>步</small></div><div class="l">最複雜情境的手動步驟數</div></div>
-      <div class="stat" style="animation-delay:.08s"><div class="n">1<small>人</small></div><div class="l">從機台到 DTM 全程獨力完成</div></div>
-      <div class="stat" style="animation-delay:.14s"><div class="n">7</div><div class="l">必經階段（Phase 1–7）</div></div>
+      <div class="stat" style="animation-delay:.02s"><div class="n">30<small>步</small></div><div class="l">最複雜情境的手動步驟數</div></div>
+      <div class="stat" style="animation-delay:.08s"><div class="n">1–3<small>人</small></div><div class="l">從機台到 DTM 全程經手人數（依產線分工）</div></div>
+      <div class="stat" style="animation-delay:.14s"><div class="n">6</div><div class="l">必經階段（Phase 1–6）</div></div>
       <div class="stat" style="animation-delay:.2s"><div class="n">4<small>種</small></div><div class="l">設備組合，各自要重來一次</div></div>
     </div>
   </div>
@@ -182,27 +182,27 @@
     <div class="section-head">
       <div class="tag">Cross-Equipment Comparison</div>
       <h2>四種設備組合，步驟數都不算少</h2>
-      <p>CheckList 依設備類型分成四份，步驟數從 17 到 31 不等 — 旅程長度會因設備新舊、廠牌而不同，但沒有一種是「按一下就好」。</p>
+      <p>CheckList 依設備類型分成四份，步驟數從 17 到 30 不等 — 旅程長度會因設備新舊、廠牌而不同，但沒有一種是「按一下就好」。</p>
     </div>
     <div class="compare">
       <div class="compare-row worst">
         <div class="name">Reflow<span class="sub">Vicon 1.37 以下</span></div>
         <div class="compare-track"><div class="compare-fill" style="width:100%"></div></div>
-        <div class="count">31</div>
+        <div class="count">30</div>
       </div>
       <div class="compare-row">
         <div class="name">Reflow<span class="sub">Vicon 1.37 以上</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:80.6%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:83.3%"></div></div>
         <div class="count">25</div>
       </div>
       <div class="compare-row">
         <div class="name">Printer<span class="sub">GKG</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:74.2%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:76.7%"></div></div>
         <div class="count">23</div>
       </div>
       <div class="compare-row">
         <div class="name">Printer<span class="sub">DEK</span></div>
-        <div class="compare-track"><div class="compare-fill" style="width:54.8%"></div></div>
+        <div class="compare-track"><div class="compare-fill" style="width:56.7%"></div></div>
         <div class="count">17</div>
       </div>
     </div>
@@ -211,11 +211,11 @@
   <div class="section">
     <div class="section-head">
       <div class="tag">The Journey · Reflow (Vicon 1.37 以下)</div>
-      <h2>PSE 一個人的 31 步旅程</h2>
-      <p>沒有 Import 功能、沒有共享路徑可用——從機台端建立帳號、資料夾，到 DTM 端登錄路徑、配置 Template、執行生成，再回到機台手動匯入驗證，全部由 PSE 一個人跑完。</p>
+      <h2>PSE 的 30 步旅程</h2>
+      <p>沒有 Import 功能、沒有共享路徑可用——從機台端建立帳號、資料夾，到 DTM 端登錄路徑、執行生成，再回到機台手動匯入驗證，全部由 PSE 跑完 — 依產線分工，過程中約有 1–3 人經手。</p>
     </div>
     <div class="journey-note">
-      <span class="role-key"><span class="role-dot pse"></span>PSE 獨立完成全部 7 個階段</span>
+      <span class="role-key"><span class="role-dot pse"></span>PSE 負責全部 6 個階段（約 1–3 人經手）</span>
       <span class="pain-key">⚠ 高摩擦步驟</span>
     </div>
 
@@ -226,19 +226,19 @@
     <div class="section-head">
       <div class="tag">Perceived Effort</div>
       <h2>努力曲線：兩段「純手動」把體感拉到最高</h2>
-      <p>Phase 2（本機建帳號、建共享資料夾）與 Phase 6（手動匯入驗證）完全沒有自動化介入，是整趟旅程中最耗神的兩段。</p>
+      <p>Phase 2（本機建帳號、建共享資料夾）與 Phase 5（手動匯入驗證）完全沒有自動化介入，是整趟旅程中最耗神的兩段。</p>
     </div>
     <div class="curve-wrap">
       <svg viewBox="0 0 900 220" style="width:100%; height:auto; display:block;" id="curve-svg"></svg>
       <div class="curve-legend">
-        <span>Phase 1</span><span>Phase 2</span><span>Phase 3</span><span>Phase 4</span><span>Phase 5</span><span>Phase 6</span><span>Phase 7</span>
+        <span>Phase 1</span><span>Phase 2</span><span>Phase 3</span><span>Phase 4</span><span>Phase 5</span><span>Phase 6</span>
       </div>
     </div>
   </div>
 
   <div class="closer">
     <div class="big">同樣的旅程，<span class="hl">每加一座新廠、每換一種設備</span>就得重走一次。</div>
-    <p>目前 BG2 範圍內已有 9 座廠、最多 4 種設備組合待導入 — 若以最繁瑣的 Reflow 1.37 以下情境估算，光是「生成」前的準備工作，理論上就有機會重複超過 30 步 × 多個廠別的手動作業量。這正是接下來優化（例如共用帳號範本、批次匯入工具）可以鎖定的目標。</p>
+    <p>目前 BG2 範圍內已有 9 座廠、最多 4 種設備組合待導入 — 若以最繁瑣的 Reflow 1.37 以下情境估算，光是「生成」前的準備工作，理論上就有機會重複約 30 步 × 多個廠別的手動作業量。這正是接下來優化（例如共用帳號範本、批次匯入工具）可以鎖定的目標。</p>
     <div class="foot-stats">
       <div>資料來源 <b>DTM_SMT設備導入CheckList.xlsx</b></div>
       <div>整理角度 <b>PO / 使用者旅程</b></div>
@@ -270,16 +270,13 @@
     { name: 'Phase 3', title: 'DTM 設備建檔', role: 'pse', effort: 2, steps: [
         '填寫共享路徑', '填寫帳號', '填寫密碼', '路徑測試成功'
       ], flags: {3:'路徑或帳密填錯需自行回頭排查'} },
-    { name: 'Phase 4', title: 'Template 配置', role: 'pse', effort: 1, steps: [
-        '完成 Template 配置'
-      ], flags: {} },
-    { name: 'Phase 5', title: '程式生成', role: 'pse', effort: 2, steps: [
+    { name: 'Phase 4', title: '程式生成', role: 'pse', effort: 2, steps: [
         'DTM 新增版號資訊', '執行生成', 'CSV 成功產出', '檔案進入共享資料夾'
       ], flags: {} },
-    { name: 'Phase 6', title: '手動匯入驗證', role: 'pse', effort: 5, steps: [
+    { name: 'Phase 5', title: '手動匯入驗證', role: 'pse', effort: 5, steps: [
         '開啟數據庫', 'CSV 導入/導出', '導入程序', '選擇生成 CSV', '完成導入', '程式建立成功'
       ], flags: {2:'匯入步驟與 Phase1 相同介面，容易誤操作'} },
-    { name: 'Phase 7', title: '上線驗證', role: 'pse', effort: 3, steps: [
+    { name: 'Phase 6', title: '上線驗證', role: 'pse', effort: 3, steps: [
         'PSE 開啟程式驗證', '參數正確', '首件驗證成功', '正式上線'
       ], flags: {} }
   ];
